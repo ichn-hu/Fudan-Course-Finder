@@ -41,10 +41,14 @@
         <li>
             地点搜索，如需查找张江开的课，可在地点栏输入"Z"
         </li>
-		<li>
-			模块课搜索，序号中输入"1190"，基本匹配到的课都是模块课
-		</li>
+        <li>
+            模块课搜索，序号中输入"1190"，基本匹配到的课都是模块课
+        </li>
+        <li>
+            支持开课大纲下载，在同一浏览器内登录jwfw然后点击序号的链接即可下载
+        </li>
     </ul>
+
     </p>
 
     <table class="table" id="display-data">
@@ -77,7 +81,7 @@
         </thead>
         <tbody>
         <tr v-for="course in courses">
-            <td>{{course.num}}</td>
+            <td><a v-bind:href="course.url">{{course.num}}</a></td>
             <td>{{course.name}}</td>
             <td>{{course.credit}}</td>
             <td>{{course.tutor}}</td>
@@ -89,6 +93,9 @@
         </tr>
         </tbody>
     </table>
+    <footer>
+        声明：本工具查到的课若与jwfw冲突，请以jwfw为准，作者不为结果准确性负责
+    </footer>
 </div>
 
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
@@ -106,6 +113,7 @@
     var data = new Vue({
         el: '#display-data',
         data: {
+            url: "",
             num: "",
             name: "",
             credit: "",
@@ -123,6 +131,7 @@
                 $.getJSON('courses.json', function (res) {
                     lis = new Array;
                     for (var i in res) {
+                        var cid = String(i);
                         i = res[i];
                         if (!contains(i.num, data.num))
                             continue;
@@ -142,6 +151,9 @@
                             continue;
                         if (!contains(i.depart, data.depart))
                             continue;
+
+                        i.url = 'http://jwfw.fudan.edu.cn/eams/stdSyllabus!downloadSyllabusByLesson.action?lessonIds='
+                            + cid;
                         lis.push(i);
                     }
                     if (lis.length > 400) {
