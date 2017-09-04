@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Finder</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<h1>
+    复旦课程开课查询
+    @<a href="github.com/ichn-hu">github</a>
+</h1>
+<table class="table" id="display-data">
+    <thead>
+    <tr>
+        <td>序号</td>
+        <td>名称</td>
+        <td>学分</td>
+        <td>教师</td>
+        <td>职称</td>
+        <td>人数</td>
+        <td>时间</td>
+        <td>地点</td>
+        <td>院系</td>
+    </tr>
+    <tr>
+        <td><input type="text" v-model="num"></td>
+        <td><input type="text" v-model="name"></td>
+        <td><input type="text" v-model="credit"></td>
+        <td><input type="text" v-model="tutor"></td>
+        <td><input type="text" v-model="title"></td>
+        <td><input type="text" v-model="limit"></td>
+        <td><input type="text" v-model="timing"></td>
+        <td><input type="text" v-model="place"></td>
+        <td><input type="text" v-model="depart"></td>
+        <td>
+            <button v-on:click="find">查询</button>
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="course in courses">
+        <td>{{course.num}}</td>
+        <td>{{course.name}}</td>
+        <td>{{course.credit}}</td>
+        <td>{{course.tutor}}</td>
+        <td>{{course.title}}</td>
+        <td>{{course.limit}}</td>
+        <td>{{course.timing}}</td>
+        <td>{{course.place}}</td>
+        <td>{{course.depart}}</td>
+    </tr>
+    </tbody>
+</table>
+
+
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/vue.js"></script>
+
+<script>
+    out = console.log;
+
+    function contains(a, b) {
+        if (b)
+            return a.indexOf(b) >= 0;
+        return true;
+    }
+    var data = new Vue({
+        el: '#display-data',
+        data: {
+            num: "",
+            name: "",
+            credit: "",
+            tutor: "",
+            title: "",
+            limit: "",
+            timing: "",
+            place: "",
+            depart: "",
+            courses: new Array
+        },
+        methods: {
+            find: function () {
+                data = this;
+                $.getJSON('courses.json', function (res) {
+                    lis = new Array;
+                    for (var i in res) {
+                        i = res[i];
+                        if (!contains(i.num, data.num))
+                            continue;
+                        if (!contains(i.name, data.name))
+                            continue;
+                        if (!contains(i.credit, data.credit))
+                            continue;
+                        if (!contains(i.tutor, data.tutor))
+                            continue;
+                        if (!contains(i.title, data.title))
+                            continue;
+                        if (!contains(i.limit, data.limit))
+                            continue;
+                        if (!contains(i.timing, data.timing))
+                            continue;
+                        if (!contains(i.place, data.place))
+                            continue;
+                        if (!contains(i.depart, data.depart))
+                            continue;
+                        lis.push(i);
+                    }
+                    if (lis.length > 200) {
+                        alert('匹配课程过多（>200），请修改关键字');
+                        return;
+                    }
+                    if (lis.length === 0) {
+                        alert('无匹配课程，请修改关键字');
+                        return;
+                    }
+                    data.courses = lis;
+                });
+            }
+        }
+    });
+
+
+</script>
+
+</body>
+</html>
