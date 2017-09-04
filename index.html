@@ -4,78 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Finder</title>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background: url(http://images.cnblogs.com/cnblogs_com/ichn/1029131/o_bg.jpg);
         }
+
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: 15px;
+            margin-left: 15px;
+        }
     </style>
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>
-    复旦课程开课查询
-    @<a href="https://github.com/ichn-hu/Fudan-Course-Finder">github</a>
-</h1>
 
-<p>
-    除去选课界面的搜索匹配限制，可以支持关键字包含查询，例如
+<div class="container">
+    <div class="page-header">
+        <h1>
+            复旦课程开课查询
+            <small>@<a href="https://github.com/ichn-hu/Fudan-Course-Finder">github</a></small>
+        </h1>
+    </div>
+    <p>
+        除去选课界面的搜索匹配限制，可以支持关键字包含查询，例如
 
-<ul>
-    <li>
-        在序号中输入"ENGL"或"PEDU"即可搜索英语课或体育课
-    </li>
-    <li>
-        时间搜索，如"星期一 1-2"
-    </li>
-    <li>
-        地点搜索，如需查找张江开的课，可在地点栏输入"Z"
-    </li>
-</ul>
-</p>
+    <ul>
+        <li>
+            在序号中输入"ENGL"或"PEDU"即可搜索英语课或体育课
+        </li>
+        <li>
+            时间搜索，如"星期一 1-2"
+        </li>
+        <li>
+            地点搜索，如需查找张江开的课，可在地点栏输入"Z"
+        </li>
+    </ul>
+    </p>
 
-<table class="table" id="display-data">
-    <thead>
-    <tr>
-        <td>序号</td>
-        <td>名称</td>
-        <td>学分</td>
-        <td>教师</td>
-        <td>职称</td>
-        <td>人数</td>
-        <td>时间</td>
-        <td>地点</td>
-        <td>院系</td>
-    </tr>
-    <tr>
-        <td><input type="text" v-model="num"></td>
-        <td><input type="text" v-model="name"></td>
-        <td><input type="text" v-model="credit"></td>
-        <td><input type="text" v-model="tutor"></td>
-        <td><input type="text" v-model="title"></td>
-        <td><input type="text" v-model="limit"></td>
-        <td><input type="text" v-model="timing"></td>
-        <td><input type="text" v-model="place"></td>
-        <td><input type="text" v-model="depart"></td>
-        <td>
-            <button class="btn btn-primary" v-on:click="find">查询</button>
-        </td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr v-for="course in courses">
-        <td>{{course.num}}</td>
-        <td>{{course.name}}</td>
-        <td>{{course.credit}}</td>
-        <td>{{course.tutor}}</td>
-        <td>{{course.title}}</td>
-        <td>{{course.limit}}</td>
-        <td>{{course.timing}}</td>
-        <td>{{course.place}}</td>
-        <td>{{course.depart}}</td>
-    </tr>
-    </tbody>
-</table>
-
+    <table class="table" id="display-data">
+        <thead>
+        <tr>
+            <td>序号</td>
+            <td>名称</td>
+            <td>学分</td>
+            <td>教师</td>
+            <td>职称</td>
+            <td>人数</td>
+            <td>时间</td>
+            <td>地点</td>
+            <td>院系</td>
+        </tr>
+        <tr>
+            <td><input type="text" v-model="num"></td>
+            <td><input type="text" v-model="name"></td>
+            <td><input type="text" v-model="credit"></td>
+            <td><input type="text" v-model="tutor"></td>
+            <td><input type="text" v-model="title"></td>
+            <td><input type="text" v-model="limit"></td>
+            <td><input type="text" v-model="timing"></td>
+            <td><input type="text" v-model="place"></td>
+            <td><input type="text" v-model="depart"></td>
+            <td>
+                <button class="btn btn-primary" v-on:click="find">查询</button>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="course in courses">
+            <td>{{course.num}}</td>
+            <td>{{course.name}}</td>
+            <td>{{course.credit}}</td>
+            <td>{{course.tutor}}</td>
+            <td>{{course.title}}</td>
+            <td>{{course.limit}}</td>
+            <td>{{course.timing}}</td>
+            <td>{{course.place}}</td>
+            <td>{{course.depart}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
