@@ -45,7 +45,7 @@
             模块课搜索，序号中输入"1190"，基本匹配到的课都是模块课
         </li>
         <li>
-            支持开课大纲下载，在同一浏览器内登录jwfw然后点击序号的链接即可下载
+            支持开课大纲下载，在同一浏览器内登录jwfw并点击一次“开课查询（含大纲）”，之后在本页面点击序号的链接即可下载开课大纲
         </li>
     </ul>
 
@@ -81,7 +81,9 @@
         </thead>
         <tbody>
         <tr v-for="course in courses">
-            <td><a v-bind:href="course.url">{{course.num}}</a></td>
+            <td>
+                <a v-bind:href="course.url">{{course.num}}</a>
+            </td>
             <td>{{course.name}}</td>
             <td>{{course.credit}}</td>
             <td>{{course.tutor}}</td>
