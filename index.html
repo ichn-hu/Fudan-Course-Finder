@@ -45,7 +45,7 @@
             模块课搜索，序号中输入"1190"，基本匹配到的课都是模块课
         </li>
         <li>
-            支持开课大纲下载，在同一浏览器内登录jwfw并点击一次“开课查询（含大纲）”，之后在本页面点击序号的链接即可下载开课大纲
+            支持开课大纲下载和余量查看，在同一浏览器内登录jwfw并点击一次“开课查询（含大纲）”，之后在本页面点击序号的链接即可下载开课大纲或是点击查看余量跳转到余量查看
         </li>
     </ul>
 
@@ -63,6 +63,7 @@
             <td>时间</td>
             <td>地点</td>
             <td>院系</td>
+            <td>操作</td>
         </tr>
         <tr>
             <td><input type="text" v-model="num"></td>
@@ -82,7 +83,7 @@
         <tbody>
         <tr v-for="course in courses">
             <td>
-                <a v-bind:href="course.url">{{course.num}}</a>
+                <a v-bind:href="course.syllabus">{{course.num}}</a>
             </td>
             <td>{{course.name}}</td>
             <td>{{course.credit}}</td>
@@ -92,6 +93,9 @@
             <td>{{course.timing}}</td>
             <td>{{course.place}}</td>
             <td>{{course.depart}}</td>
+            <td>
+                <a class="btn btn-info" v-bind:href="course.info" target="_blank">查看余量</a>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -154,8 +158,9 @@
                         if (!contains(i.depart, data.depart))
                             continue;
 
-                        i.url = 'http://jwfw.fudan.edu.cn/eams/stdSyllabus!downloadSyllabusByLesson.action?lessonIds='
+                        i.syllabus = 'http://jwfw.fudan.edu.cn/eams/stdSyllabus!downloadSyllabusByLesson.action?lessonIds='
                             + cid;
+                        i.info = 'http://jwfw.fudan.edu.cn/eams/stdSyllabus!info.action?lesson.id=' + cid;
                         lis.push(i);
                     }
                     if (lis.length > 400) {
