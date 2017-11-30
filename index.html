@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,68 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: url(http://images.cnblogs.com/cnblogs_com/ichn/1029131/o_bg.jpg);
+            /*background: url(http://images.cnblogs.com/cnblogs_com/ichn/1029131/o_bg.jpg);*/
+            color: #444;
+
+            font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+
+            font-size: 12px;
+
+            line-height: 1.5em;
+
+            padding: 1em;
+            /*
+            margin: auto;*/
+            max-width: 42em;
+
+            background: #fefefe;
+        }
+
+        ::selection {
+
+            background: rgba(255, 255, 0, 0.3);
+
+            color: #000;
+
+        }
+
+
+
+
+        p {
+            margin: 1em 0;
+        }
+
+
+
+        img {
+
+            max-width: 100%;
+
+        }
+
+
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: normal;
+            color: #111;
+            line-height: 1em;
+        }
+
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+
+        p,
+        li {
+            color: #636c7b;
         }
 
         .container {
@@ -19,177 +81,202 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="page-header">
-        <h1>
-            复旦课程开课查询
-            <small>@<a href="https://github.com/ichn-hu/Fudan-Course-Finder">github</a></small>
-        </h1>
+    <div class="container">
+        <div class="page-header">
+            <h1>
+                复旦课程开课查询
+                <small>@
+                    <a href="https://github.com/ichn-hu/Fudan-Course-Finder">github</a>
+                </small>
+            </h1>
+        </div>
+        <p>
+            <strong>数据已经更新到2018上半学期</strong><br>
+
+            除去选课界面的搜索匹配限制，可以支持关键字包含查询，例如
+
+            <ul>
+                <li>
+                    在序号中输入"ENGL"或"PEDU"即可搜索英语课或体育课
+                </li>
+                <li>
+                    时间搜索，如"星期一 1-2"
+                </li>
+                <li>
+                    地点搜索，如需查找张江开的课，可在地点栏输入"Z"
+                </li>
+                <li>
+                    模块课搜索，序号中输入"1190"，基本匹配到的课都是模块课
+                </li>
+                <li>
+                    支持开课大纲下载和余量查看，在同一浏览器内登录jwfw并点击一次“开课查询（含大纲）”，之后在本页面点击序号的链接即可下载开课大纲或是点击查看余量跳转到余量查看
+                </li>
+            </ul>
+
+        </p>
+
+        <table class="table" id="display-data">
+            <thead>
+                <tr>
+                    <td>操作</td>
+                    <td>序号</td>
+                    <td>名称</td>
+                    <td>学分</td>
+                    <td>教师</td>
+                    <td>职称</td>
+                    <td>人数</td>
+                    <td>时间</td>
+                    <td>地点</td>
+                    <td>院系</td>
+                </tr>
+                <tr>
+                    <td>
+                        按Enter查询
+                    </td>
+                    <td>
+                        <input type="text" v-model="num" v-on:keyup.enter="find">
+                    </td>
+                    <td>
+                        <input type="text" v-model="name" v-on:keyup.enter="find">
+                    </td>
+                    <td>
+                        <input type="text" v-model="credit" v-on:keyup.enter="find">
+                    </td>
+                    <td>
+                        <input type="text" v-model="tutor" v-on:keyup.enter="find">
+                    </td>
+                    <td>
+                        <input type="text" v-model="title" v-on:keyup.enter="find">
+                    </td>
+                    <td>
+                        <input type="text" v-model="limit" v-on:keyup.enter="find">
+                    </td>
+                    <td>
+                        <input type="text" v-model="timing" v-on:keyup.enter="find">
+                    </td>
+                    <td>
+                        <input type="text" v-model="place" v-on:keyup.enter="find">
+                    </td>
+                    <td>
+                        <input type="text" v-model="depart" v-on:keyup.enter="find">
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="course in courses">
+                    <td>
+                        <a class="btn btn-info" v-bind:href="course.info" target="_blank">查看余量</a>
+                    </td>
+                    <td>
+                        <a v-bind:href="course.syllabus">{{course.num}}</a>
+                    </td>
+                    <td>{{course.name}}</td>
+                    <td>{{course.credit}}</td>
+                    <td>{{course.tutor}}</td>
+                    <td>{{course.title}}</td>
+                    <td>{{course.limit}}</td>
+                    <td>{{course.timing}}</td>
+                    <td>{{course.place}}</td>
+                    <td>{{course.depart}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <footer>
+            声明：本工具查到的课若与jwfw冲突，请以jwfw为准，作者不为结果准确性负责
+        </footer>
     </div>
-    <p>
-        除去选课界面的搜索匹配限制，可以支持关键字包含查询，例如
 
-    <ul>
-        <li>
-            在序号中输入"ENGL"或"PEDU"即可搜索英语课或体育课
-        </li>
-        <li>
-            时间搜索，如"星期一 1-2"
-        </li>
-        <li>
-            地点搜索，如需查找张江开的课，可在地点栏输入"Z"
-        </li>
-        <li>
-            模块课搜索，序号中输入"1190"，基本匹配到的课都是模块课
-        </li>
-        <li>
-            支持开课大纲下载和余量查看，在同一浏览器内登录jwfw并点击一次“开课查询（含大纲）”，之后在本页面点击序号的链接即可下载开课大纲或是点击查看余量跳转到余量查看
-        </li>
-    </ul>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/vue.min.js"></script>
 
-    </p>
+    <script>
+        out = console.log;
 
-    <table class="table" id="display-data">
-        <thead>
-        <tr>
-            <td>序号</td>
-            <td>名称</td>
-            <td>学分</td>
-            <td>教师</td>
-            <td>职称</td>
-            <td>人数</td>
-            <td>时间</td>
-            <td>地点</td>
-            <td>院系</td>
-            <td>操作</td>
-        </tr>
-        <tr>
-            <td><input type="text" v-model="num"></td>
-            <td><input type="text" v-model="name"></td>
-            <td><input type="text" v-model="credit"></td>
-            <td><input type="text" v-model="tutor"></td>
-            <td><input type="text" v-model="title"></td>
-            <td><input type="text" v-model="limit"></td>
-            <td><input type="text" v-model="timing"></td>
-            <td><input type="text" v-model="place"></td>
-            <td><input type="text" v-model="depart"></td>
-            <td>
-                <button class="btn btn-primary" v-on:click="find">查询</button>
-            </td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="course in courses">
-            <td>
-                <a v-bind:href="course.syllabus">{{course.num}}</a>
-            </td>
-            <td>{{course.name}}</td>
-            <td>{{course.credit}}</td>
-            <td>{{course.tutor}}</td>
-            <td>{{course.title}}</td>
-            <td>{{course.limit}}</td>
-            <td>{{course.timing}}</td>
-            <td>{{course.place}}</td>
-            <td>{{course.depart}}</td>
-            <td>
-                <a class="btn btn-info" v-bind:href="course.info" target="_blank">查看余量</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <footer>
-        声明：本工具查到的课若与jwfw冲突，请以jwfw为准，作者不为结果准确性负责
-    </footer>
-</div>
-
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/vue.min.js"></script>
-
-<script>
-    out = console.log;
-
-    function contains(a, b) {
-        if (b)
-            return a.indexOf(b) >= 0;
-        return true;
-    }
-    var data = new Vue({
-        el: '#display-data',
-        data: {
-            url: "",
-            num: "",
-            name: "",
-            credit: "",
-            tutor: "",
-            title: "",
-            limit: "",
-            timing: "",
-            place: "",
-            depart: "",
-            courses: new Array
-        },
-        methods: {
-            find: function () {
-                data = this;
-                $.getJSON('courses.json', function (res) {
-                    lis = new Array;
-                    for (var i in res) {
-                        var cid = String(i);
-                        i = res[i];
-                        if (!contains(i.num, data.num))
-                            continue;
-                        if (!contains(i.name, data.name))
-                            continue;
-                        if (!contains(i.credit, data.credit))
-                            continue;
-                        if (!contains(i.tutor, data.tutor))
-                            continue;
-                        if (!contains(i.title, data.title))
-                            continue;
-                        if (!contains(i.limit, data.limit))
-                            continue;
-                        if (!contains(i.timing, data.timing))
-                            continue;
-                        if (!contains(i.place, data.place))
-                            continue;
-                        if (!contains(i.depart, data.depart))
-                            continue;
-
-                        i.syllabus = 'http://jwfw.fudan.edu.cn/eams/stdSyllabus!downloadSyllabusByLesson.action?lessonIds='
-                            + cid;
-                        i.info = 'http://jwfw.fudan.edu.cn/eams/stdSyllabus!info.action?lesson.id=' + cid;
-                        lis.push(i);
-                    }
-                    //alert(lis.length);
-                    if (lis.length > 400) {
-                        alert('匹配课程过多（>400），请修改关键字');
-                        return;
-                    }
-                    if (lis.length === 0) {
-                        alert('无匹配课程，请修改关键字');
-                        return;
-                    }
-                    data.courses = lis;
-                });
-            }
+        function contains(a, b) {
+            if (b)
+                return a.indexOf(b) >= 0;
+            return true;
         }
-    });
+        var data = new Vue({
+            el: '#display-data',
+            data: {
+                url: "",
+                num: "",
+                name: "",
+                credit: "",
+                tutor: "",
+                title: "",
+                limit: "",
+                timing: "",
+                place: "",
+                depart: "",
+                courses: new Array
+            },
+            methods: {
+                find: function () {
+                    data = this;
+                    $.getJSON('courses.json', function (res) {
+                        lis = new Array;
+                        for (var i in res) {
+                            var cid = String(i);
+                            i = res[i];
+                            if (!contains(i.num, data.num))
+                                continue;
+                            if (!contains(i.name, data.name))
+                                continue;
+                            if (!contains(i.credit, data.credit))
+                                continue;
+                            if (!contains(i.tutor, data.tutor))
+                                continue;
+                            if (!contains(i.title, data.title))
+                                continue;
+                            if (!contains(i.limit, data.limit))
+                                continue;
+                            if (!contains(i.timing, data.timing))
+                                continue;
+                            if (!contains(i.place, data.place))
+                                continue;
+                            if (!contains(i.depart, data.depart))
+                                continue;
+
+                            i.syllabus = 'http://jwfw.fudan.edu.cn/eams/stdSyllabus!downloadSyllabusByLesson.action?lessonIds='
+                                + cid;
+                            i.info = 'http://jwfw.fudan.edu.cn/eams/stdSyllabus!info.action?lesson.id=' + cid;
+                            lis.push(i);
+                        }
+                        //alert(lis.length);
+                        if (lis.length > 400) {
+                            alert('匹配课程过多（>400），请修改关键字');
+                            return;
+                        }
+                        if (lis.length === 0) {
+                            alert('无匹配课程，请修改关键字');
+                            return;
+                        }
+                        data.courses = lis;
+                    });
+                }
+            }
+        });
 
 
-</script>
-<script>
-    var _hmt = _hmt || [];
-    (function () {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?6980363c5a21a136c1fd78583fa2704a";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?6980363c5a21a136c1fd78583fa2704a";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 
 
 </body>
+
 </html>
