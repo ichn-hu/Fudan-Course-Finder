@@ -8,6 +8,12 @@
 
 **Update**
 
+upd [2018.09.03]
+
+* 数据更新为semester.id=284，即2018年度秋季学期。欢迎大一萌新们！
+
+---
+
 * 已经更新数据为semester.id=264的数据
 * 提供数据抓取文件crawl.py, 只需在header中填入cookie并修改semester.id以及pageNo, python运行即可自动更新
 * ![result](result.png)
