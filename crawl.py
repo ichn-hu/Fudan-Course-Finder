@@ -15,7 +15,7 @@ sess.headers.update({
     "Connection":"keep-alive",
     "Content-Length":"67",
     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
-    "Cookie":"请使用你自己的cookie", # !!! modify here
+    "Cookie":"semester.id=285; JSESSIONID=58F74F17A1B11ABDB7DF05FE3A360333.85-; _ga=GA1.3.1122834935.1543755036; iPlanetDirectoryPro=AQIC5wM2LY4Sfcza8yGzdobkdBWF1IHSJ5fRkBBowVVp93k%3D%40AAJTSQACMDE%3D%23", # !!! modify here
     "Host":"jwfw.fudan.edu.cn",
     "Origin":"http://jwfw.fudan.edu.cn",
     "Referer":"http://jwfw.fudan.edu.cn/eams/stdSyllabus!search.action",
@@ -27,7 +27,7 @@ def getInfo(pageNo):
     try:
         res = sess.post(url, data={
             "lesson.project.id":1,
-            "lesson.semester.id":284, # !!! modify here
+            "lesson.semester.id":285, # !!! modify here
             "_":1517105070988,
             "pageNo":pageNo
         }).text
@@ -95,8 +95,9 @@ def parse(text):
     return res
 
 res = {}
-for pageNo in tqdm(range(1, 152)): # !!! modify here
+for pageNo in tqdm(range(1, 162)): # !!! modify here
     res.update(parse(getInfo(pageNo)))
+    sleep(0.2)
 
 json.dump(res, open('courses.json', 'w'))
 print("finished, totally {} course entry crawled!".format(len(res)))
