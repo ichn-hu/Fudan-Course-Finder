@@ -38,15 +38,26 @@ def getInfo(pageNo):
 
 ptr = re.compile('<tr>(.*?)<\/tr>', re.S)
 plessonIds = re.compile('value="(\d+)"')
-pnum = re.compile('>(\w*\d*\.\d*)<')
+pnum = re.compile('([A-Z]{2,4}\d{6}h{0,1}\.\d{2})')
+# pnum = re.compile('>(\w*\d*\.\d*)<') \w包含\d 938个num为空 因为之前有空格 
 pname = re.compile('查看任务详细信息">(.*)<\/a>')
-pcredit = re.compile('<\/a><\/td><td>(\d*)<\/td>')
-ptutor = re.compile('<\/a><\/td><td>\d*<\/td><td>(.*?)<\/td>')
-ptitle = re.compile('<\/a><\/td><td>\d*<\/td><td>.*?<\/td><td>(.*?)<')
-plimit = re.compile('<\/a><\/td><td>\d*<\/td><td>.*?<\/td><td>.*?<\/td><td>(\d*)<\/td')
-pplace = re.compile('"longTextFormat">(.*?)<', re.S)
+pcredit = re.compile('<\/a><\/td><td>\s*(\d*\.?\d?)\s*<\/td>')
+# pcredit = re.compile('<\/a><\/td><td>(\d*)<\/td>') 学分有.5
+
+# ptutor = re.compile('<\/a><\/td><td>\d*<\/td><td>(.*?)<\/td>')
+ptutor = re.compile('<\/a><\/td><td>.*?<\/td><td>(.*?)<\/td>')
+# ptitle = re.compile('<\/a><\/td><td>\d*<\/td><td>.*?<\/td><td>(.*?)<')
+ptitle = re.compile('<\/a><\/td><td>.*?<\/td><td>.*?<\/td><td>(.*?)<')
+# plimit = re.compile('<\/a><\/td><td>\d*<\/td><td>.*?<\/td><td>.*?<\/td><td>(\d*)<\/td')
+plimit = re.compile('<\/a><\/td><td>.*?<\/td><td>.*?<\/td><td>.*?<\/td><td>(\d*)<\/td')
+
+# pplace = re.compile('"longTextFormat">(.*?)<', re.S) 有"longTextFormat"><br>H3108的形式导致匹配为空(~700个)
+pplace = re.compile('"longTextFormat">(.*?)<\/td><td>', re.S)
 ptiming = re.compile('"longTextFormat">.*?<\/td><td>(.*?)<\/td><td>', re.S)
 pdepart = re.compile('"longTextFormat">.*?<\/td><td>.*?<\/td><td>(.*?)<', re.S)
+
+# jwfw.fudan.edu.cn/eams/stdSyllabus!info.action?lesson.id={} source格式整齐 tutor,place,timing可以从这里处理 中间不会有\r\n和<br>标签
+
 
 def extract(text):
     def get(l):
