@@ -15,7 +15,7 @@ sess.headers.update({
     "Connection":"keep-alive",
     "Content-Length":"67",
     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
-    "Cookie":"semester.id=324; JSESSIONID=AA0D5EF149A6EE875D129657DC7C4D48.84-; sudy_sk=6318E71DF037C435A1E693A880AABC33D22A36047A49AF1B3E0C840F4E365791E76F03DCF38DCC1CCD74DEEADAB7232827980EBE61570D368B4067E611EEEA363DA37F5D85DE6A54163511C67DF8EA1B; iPlanetDirectoryPro=AQIC5wM2LY4SfcyQ06aIftidAEKWPucTN0boRuMz4wc5Qzs%3D%40AAJTSQACMDE%3D%23", # !!! modify here
+    "Cookie":"", # !!! modify here
     "Host":"jwfw.fudan.edu.cn",
     "Origin":"http://jwfw.fudan.edu.cn",
     "Referer":"http://jwfw.fudan.edu.cn/eams/stdSyllabus!search.action",
@@ -95,7 +95,7 @@ def parse(text):
     return res
 
 res = {}
-for pageNo in tqdm(range(1, 152)): # !!! modify here
+for pageNo in tqdm(range(1, 160)): # !!! modify here
     res.update(parse(getInfo(pageNo)))
     sleep(0.2)
 
