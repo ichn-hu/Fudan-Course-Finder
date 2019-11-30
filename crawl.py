@@ -27,7 +27,7 @@ def getInfo(pageNo):
     try:
         res = sess.post(url, data={
             "lesson.project.id":1,
-            "lesson.semester.id":324, # !!! modify here
+            "lesson.semester.id":325, # !!! modify here
             "_":1517105070988,
             "pageNo":pageNo
         }).text
@@ -95,7 +95,7 @@ def parse(text):
     return res
 
 res = {}
-for pageNo in tqdm(range(1, 160)): # !!! modify here
+for pageNo in tqdm(range(1, 162)): # !!! modify here
     res.update(parse(getInfo(pageNo)))
     sleep(0.2)
 
